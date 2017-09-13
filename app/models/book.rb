@@ -1,6 +1,8 @@
 class Book < ApplicationRecord
 
-  belongs_to :author
+  belongs_to :author, counter_cache: :books_count
+  has_many :person_books
+  has_many :people, through: :person_books
 
   # validaytions link http://guides.rubyonrails.org/active_record_validations.html
   validates :terms_of_service, acceptance: true
@@ -8,7 +10,7 @@ class Book < ApplicationRecord
             numericality: {
               greater_than: 9 , less_than: 2001, message: "Invalid value."
             }
-  validates :title, uniqueness: { case_sensitive: true }
+  #validates :title, uniqueness: { case_sensitive: true }
 
   validates :desc, length: {minimum: 25}
 
